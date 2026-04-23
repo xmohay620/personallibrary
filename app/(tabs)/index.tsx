@@ -16,16 +16,16 @@ export default function Home() {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
-  // حقول التعديل
+  
   const [editTitle, setEditTitle] = useState('');
   const [editAuthor, setEditAuthor] = useState('');
   const [editStatus, setEditStatus] = useState('');
   const [editPage, setEditPage] = useState('');
 
-  // جلب البيانات من SQL
+  
   const loadBooks = () => {
     try {
-      initDatabase(); // التأكد من وجود الجدول
+      initDatabase(); 
       const allRows = db.getAllSync('SELECT * FROM books') as Book[];
       setBooks(allRows);
     } catch (e) {
@@ -48,12 +48,12 @@ export default function Home() {
     if (!selectedBook) return;
     try {
       const pageValue = editStatus === 'Currently Reading' ? editPage : '0';
-      // تحديث البيانات باستخدام SQL Update
+      
       db.runSync(
         'UPDATE books SET title = ?, author = ?, status = ?, currentPage = ? WHERE id = ?',
         [editTitle, editAuthor, editStatus, pageValue, selectedBook.id]
       );
-      loadBooks(); // تحديث الشاشة
+      loadBooks(); 
       setEditModalVisible(false);
     } catch (e) { console.error(e); }
   };
